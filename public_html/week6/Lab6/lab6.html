@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+
+        <button class="add">Add Block</button>
+
+        <script type="text/javascript">
+            'use strict';
+
+            document.querySelector('button.add').addEventListener('click', function () {
+                new Block();
+            });
+
+            function Block() {
+                this.timer = null;
+                this.top = this.getRandomNumber(50, 500);
+                this.left = this.getRandomNumber(50, 500);
+                this.transform = this.getRandomNumber(0, 360);
+                this.opacity = Math.random();
+                this.backgroundColor;
+                this.elem;
+
+                this.create();
+
+                if (!this.timer) {
+                    this.timer = setInterval(this.move.bind(this), 100);
+                }
+            }
+
+
+            Block.prototype.create = function () {
+                this.elem = document.createElement('div');
+                this.elem.style.position = 'absolute';
+                //this.elem.style.width = '50px';
+                this.elem.style.width = this.getRandomNumber(5, 100) + 'px';
+                this.elem.style.height = this.getRandomNumber(5, 100) + 'px';
+                //this.elem.style.borderRadius =  + 'px';
+                //this.elem.style.height = '50px';
+                this.elem.style.backgroundColor = this.getRandomColor();
+                this.elem.style.top = this.top + 'px';
+                this.elem.style.left = this.left + 'px';
+                this.elem.style.transform = 'rotate(' + this.transform + 'deg)';
+                this.elem.style.opacity = this.opacity;
+                this.elem.addEventListener('click', this.remove.bind(this));
+                document.body.appendChild(this.elem);
+                return this;
+            }
+
+            Block.prototype.getRandomNumber = function (min, max) {
+
+                var number = Math.random() * (max - min) + min;
+                return number;
+            }
+            
+//            Block.prototype.getRandomBorder = function(){
+//                
+//            }
+
+            Block.prototype.getRandomColor = function () {
+
+                var colors = getColor();
+                //var index = Math.floor(Math.random() * (colors));
+                return colors;
+                //console.log(index);
+                
+            }
+            
+
+            Block.prototype.move = function ()
+            {
+                this.top = (this.getRandomNumber(-5, 5)) + this.top;
+                this.left = (this.getRandomNumber(-5, 5)) + this.left;
+                this.elem.style.top = this.top + 'px';
+                this.elem.style.left = this.left + 'px';
+                this.transform = this.getRandomNumber(0, 360);
+                this.elem.style.transform = 'rotate(' + this.transform + 'deg)';
+                this.opacity = Math.random();
+                this.elem.style.opacity = this.opacity;
+            }
+
+
+
+            Block.prototype.remove = function () {
+                clearInterval(this.timer);
+                document.body.removeChild(this.elem);
+                return this;
+            }
+            
+            function getColor() {
+                    var letters = '0123456789ABCDEF';
+                    var color = '#';
+                    for (var i = 0; i < 6; i++) {
+                        color += letters[Math.floor(Math.random() * 16)];
+                    }
+                    return color;
+                }
+
+
+
+        </script>
+    </body>
+</html>
