@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style type="text/css">
+            canvas {
+                border: 1px solid black;
+            }
+        </style>
+    </head>
+    <body>
+
+        <canvas id="race" width="750" height="150"></canvas>
+        <br />
+
+        <button id="play">Play</button> 
+
+
+
+        <script type="text/javascript">
+
+            var can = document.querySelector('#race'),
+                    ctx = can.getContext('2d'),
+                    width = 75,
+                    height = 40,
+                    redXaxis = 0,
+                    blueXaxis = 0,
+                    yaxis = 0,
+                    play = document.querySelector('#play'),
+                    finishLine = (window.can.width - 100),
+                    max = finishLine;
+
+
+            function drawLine() {
+                window.ctx.save();
+                window.ctx.strokeStyle = "orange";
+                window.ctx.beginPath();
+                window.ctx.moveTo(window.can.width - 100, 0); //x, y
+                window.ctx.lineTo(window.can.width - 100, window.can.height);
+                window.ctx.stroke();
+                window.ctx.restore();
+            }
+
+            function recRed() {
+                window.ctx.fillStyle = "red";
+                window.ctx.fillRect(window.redXaxis, 100, window.width, window.height); // x y / w h
+            }
+
+            function recBlue() {
+                window.ctx.fillStyle = "blue";
+                window.ctx.fillRect(window.blueXaxis, 25, window.width, window.height); // x y / w h
+            }
+
+            play.addEventListener('click', move);
+
+
+            function move() {
+
+                if ((window.blueXaxis + window.width) < window.finishLine &&
+                        (window.redXaxis + window.width) < window.finishLine) {
+                    hide();
+                    window.blueXaxis += randNum(10);
+                    window.redXaxis += randNum(10);
+                    window.drawClear();
+                    drawLine();
+                    recBlue();
+                    recRed();
+                    setTimeout(window.move, 10);
+                } else {
+                    show();
+                    if (window.blueXaxis + window.width >= window.finishLine) {
+                        if (window.blueXaxis === window.redXaxis) {
+                            console.log("tie");
+                            tie();
+
+                        } else {
+                            console.log("blue wins");
+                            blueWin();
+                        }
+                    } else if (window.redXaxis + window.width >= window.finishLine) {
+                        if (window.blueXaxis === window.redXaxis) {
+                            console.log("tie");
+                            tie();
+
+                        } else {
+                            console.log("red wins");
+                            redWin();
+                        }
+                    }
+
+                    reset();
+                }
+            }
+
+            function randNum(max) {
+                return Math.ceil(Math.random() * max) + 1;
+            }
+
+            //adds text for blue win
+            function blueWin() {
+                window.ctx.fillStyle = "blue";
+                window.ctx.font = "16pt Helvetica";
+                window.ctx.fillText("Blue Wins", (window.can.width / 2) - 50, window.can.height / 2); //x,y
+            }
+
+            //adds text for tie
+            function tie() {
+                window.ctx.fillStyle = "purple";
+                window.ctx.font = "16pt Helvetica";
+                window.ctx.fillText("IT'S A TIE!!!!", (window.can.width / 2) - 50, window.can.height / 2); //x,y
+            }
+
+            //adds text for red win
+            function redWin() {
+                window.ctx.fillStyle = "red";
+                window.ctx.font = "16pt Helvetica";
+                window.ctx.fillText("Red Wins", (window.can.width / 2) - 50, window.can.height / 2); //x,y
+            }
+
+            function drawClear() {
+                window.ctx.clearRect(0, 0, window.can.width, window.can.height); // x y / w h
+            }
+
+            function reset() {
+                redXaxis = 0;
+                blueXaxis = 0;
+
+            }
+
+            //hides play button
+            function hide() {
+                play.style.display = 'none';
+            }
+
+            function show() {
+                play.style.display = 'block';
+            }
+        </script>
+    </body>
+</html>

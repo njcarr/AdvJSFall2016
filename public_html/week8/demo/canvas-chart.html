@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Bar Graph</title>
+  <style>
+	canvas {
+		border: 1px solid black;
+	}
+  </style>
+</head>
+<body>
+
+    <div align="center">
+
+        <h2>Chart Sample</h2>
+
+        <canvas id="can" height="400" width="650">
+
+        </canvas>
+
+    </div>
+	
+	
+	  <script type="text/javascript">
+			
+		//https://developer.apple.com/library/safari/documentation/AudioVideo/Conceptual/HTML-canvas-guide/DrawingLinesandShapes/DrawingLinesandShapes.html#//apple_ref/doc/uid/TP40010542-CH3-SW1
+		
+		var can = document.querySelector('canvas'),
+                    ctx = can.getContext("2d");
+
+            function draw() {
+                        //ctx.save();
+			window.ctx.shadowOffsetX = 2;
+			window.ctx.shadowColor = "black";
+			window.ctx.shadowOffsetY = 2;
+			window.ctx.shadowBlur=10;
+			
+			window.ctx.strokeStyle = "black";
+			window.ctx.lineJoin = "square";
+			window.ctx.lineCap = "square";
+			window.ctx.lineWidth = 1;
+			
+			// lines
+			window.ctx.beginPath();
+			window.ctx.moveTo(100, 0); //x, y
+			window.ctx.lineTo(100, window.can.height-40);						
+			window.ctx.lineTo(window.can.width, window.can.height-40);
+			
+			for ( var i = 40; i < 500; i += 40 ) {
+				window.ctx.moveTo(100, i); //x, y
+				window.ctx.lineTo(window.can.width, i);
+			
+			}
+			window.ctx.stroke();
+			//ctx.restore();
+					
+			
+			
+			window.ctx.fillStyle = "blue";
+			window.ctx.font = "16pt Helvetica";
+			window.ctx.fillText("Ford", 150, window.can.height-10);
+			
+			//ctx.fillStyle = "blue";
+			//ctx.fillRect(150, 100, 50, can.height-140);  // x, y, width, height
+			
+			
+			window.ctx.fillStyle = "red";
+			window.ctx.font = "16pt Helvetica";
+			window.ctx.fillText("Honda", 250, window.can.height-10);
+			
+			//ctx.fillStyle = "red";
+			//ctx.fillRect(250, 250, 50, can.height-290);  // x, y, width, height
+			
+			window.ctx.fillStyle = "green";
+			window.ctx.font = "16pt Helvetica";
+			window.ctx.fillText("Toyota", 350, window.can.height-10);
+			
+			window.ctx.fillStyle = "green";
+			window.ctx.fillRect(350, 150, 50, window.can.height-190);  // x, y, width, height
+			                      
+                       
+                        var startYScore = 40;
+                       
+                       
+                       window.ctx.fillStyle = "black";
+                       window.ctx.font = "16pt Helvetica";
+                       
+                       for ( var score = 100 ; score >= 20; score -= 10) {
+                           
+                            window.ctx.fillText(score, 10, startYScore);
+                            startYScore += 40;
+                       }
+                        
+			
+			/*
+			window.ctx.fillStyle = "black";
+			window.ctx.font = "16pt Helvetica";
+			window.ctx.fillText("90", 10, 80);
+			
+			window.ctx.fillStyle = "black";
+			window.ctx.font = "16pt Helvetica";
+			window.ctx.fillText("80", 10, 120);
+			
+			window.ctx.fillStyle = "black";
+			window.ctx.font = "16pt Helvetica";
+			window.ctx.fillText("70", 10, 160);
+			
+			window.ctx.fillStyle = "black";
+			window.ctx.font = "16pt Helvetica";
+			window.ctx.fillText("60", 10, 200);
+			
+			window.ctx.fillStyle = "black";
+			window.ctx.font = "16pt Helvetica";
+			window.ctx.fillText("50", 10, 240);
+			
+			window.ctx.fillStyle = "black";
+			window.ctx.font = "16pt Helvetica";
+			window.ctx.fillText("40", 10, 280);
+			
+			window.ctx.fillStyle = "black";
+			window.ctx.font = "16pt Helvetica";
+			window.ctx.fillText("30", 10, 320);
+						
+			window.ctx.fillStyle = "black";
+			window.ctx.font = "16pt Helvetica";
+			window.ctx.fillText("20", 10, 360);
+			
+			
+			*/
+			
+            }
+		
+		function drawLines() {
+		
+			window.ctx.strokeStyle = "orange";
+			window.ctx.lineJoin = "square";
+			window.ctx.lineCap = "round";
+			window.ctx.lineWidth = 5;
+			
+			window.ctx.beginPath();
+
+			window.ctx.moveTo(175, 100);
+
+			window.ctx.lineTo(275, 250);
+			window.ctx.lineTo(375, 150);
+			window.ctx.lineTo(475, window.can.height-40);
+			
+			window.ctx.stroke();
+		
+		}
+		
+		
+		var bluey = 300,
+                    blueheight = can.height-340,
+                    redy = 350,
+                    redheight = can.height-390,
+                    interval = setInterval(drawSteps, 100);
+		
+		function drawSteps() {
+			
+			if (  window.bluey <= 90 &&  window.redy <= 250 ) {
+				clearInterval(window.interval);
+				window.drawLines(); //callback, animations are done;
+			} else {
+				window.ctx.clearRect(0, 0, window.can.width, window.can.height);
+				window.draw();
+				
+				if ( window.bluey > 90 ) {
+
+					window.ctx.fillStyle = "blue";
+					window.ctx.fillRect(150, window.bluey, 50, window.blueheight);  // x, y, width, height
+					window.bluey -= 10;
+					window.blueheight += 10;
+				} else {
+					window.ctx.fillStyle = "blue";
+					window.ctx.fillRect(150, window.bluey, 50, window.blueheight);
+				}
+				
+				if ( window.redy > 250 ) {
+					window.ctx.fillStyle = "red";
+					window.ctx.fillRect(250, window.redy, 50, window.redheight);  // x, y, width, height
+					window.redy -= 10;
+					window.redheight += 10;
+				} else {
+					window.ctx.fillStyle = "red";
+					window.ctx.fillRect(250, window.redy, 50, window.redheight); 
+				}
+				
+			}
+			
+		}
+		
+		
+		
+
+    </script>
+</body>
+
+</html>

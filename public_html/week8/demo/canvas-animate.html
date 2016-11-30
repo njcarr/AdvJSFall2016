@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width">
+         <style type="text/css">
+            canvas {
+                border: 1px solid black;
+            }
+        </style>
+    </head>
+    <body>
+        <canvas id="tutorial" width="750" height="550"></canvas>
+
+        <script type="text/javascript">
+            
+            
+            var can = document.querySelector('#tutorial');
+            var ctx = can.getContext('2d');
+            
+            function drawClear(){
+                window.ctx.clearRect(0, 0, window.can.width, window.can.height); // x y / w h
+            }
+            var width = 100,
+                height = 100,
+                xaxis = 150,
+                yaxis = 0; 
+        
+            var canvasBottom = (can.height - height );
+            var canvasRight = ( can.width - width);
+        
+        
+            function moveRectY(){
+                 
+                if ( window.yaxis < window.canvasBottom ) {
+                    window.drawClear(); // Always clear the canvas before the next drawing
+                    window.yaxis += 20;   // change the position before updating the drawing                 
+                    window.ctx.fillRect(window.xaxis, window.yaxis, window.width, window.height); // x y / w h
+                    setTimeout(window.moveRectY, 100); // since we are not done, lets run the function for the next drawing
+                } else {
+                    window.moveRectX(); // once we are done, lets start the next function
+                }
+            }
+           
+            window.addEventListener('load', moveRectY);
+            
+            function moveRectX(){
+               if ( window.xaxis < window.canvasRight ) {
+                    window.drawClear();
+                    window.xaxis += 20;                    
+                    window.ctx.fillRect(window.xaxis, window.yaxis, window.width, window.height); // x y / w h
+                    setTimeout(window.moveRectY, 100);
+                } else {
+                    window.reset();
+                }
+               
+            }
+            
+            function reset() {
+               window.xaxis = 150;
+               window.yaxis = 0;  
+               window.moveRectY();
+            }
+            
+           
+            
+        </script>
+    </body>
+</html>
