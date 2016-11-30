@@ -39,9 +39,8 @@ describe("getElementContent text", function(){
       expect( elemContent ).not.toEqual('this is a not test');
   });
   
-
-  
 });
+
 
 describe("getElementContent html", function(){
   

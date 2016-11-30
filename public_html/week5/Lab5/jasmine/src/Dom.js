@@ -1,5 +1,31 @@
+'use strict';
 
-function getElementContent(selector) {
+function checkInput(selector) {
     var elem = document.querySelector(selector);
-    return elem.innerHTML;    
+    var type = elem.type;
+    if(type === 'number')
+    {
+        return true;
+    }
+    else
+        return false;    
 }
+
+
+function checkText(selector){
+    var elem = document.querySelector(selector);
+    var textStyle = elem.style.textDecoration;
+    return textStyle;
+}
+
+//function checkInput(selector){
+//    var elem = document.querySelector(selector,);
+//
+//    if(elem.type === 'number')
+//    {
+//        return true;       
+//    }
+//    
+//    else
+//        return false;     
+//}
