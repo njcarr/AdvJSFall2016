@@ -20,24 +20,32 @@ and open the template in the editor.
         <canvas id="race" width="750" height="150"></canvas>
         <br />
 
-        <button id="play">Play</button> 
+        <button id="play">Play</button>
+        <br/>
+        <form name="color" id="color" action="">
+            Player 1:
+            <input type="color" id="p1color" name="p1Color" value="#ff0000">
+            Player 2:
+            <input type="color" id="p2color" name="p2Color" value="#ffc000">
+        </form>
 
 
 
         <script type="text/javascript">
-
             var can = document.querySelector('#race'),
+                    form = document.querySelector('#color'),
                     ctx = can.getContext('2d'),
                     width = 75,
                     height = 40,
-                    redXaxis = 0,
-                    blueXaxis = 0,
+                    rect2Xaxis = 0,
+                    rect1Xaxis = 0,
                     yaxis = 0,
                     play = document.querySelector('#play'),
                     finishLine = (window.can.width - 100),
-                    max = finishLine;
-
-
+                    max = finishLine,
+                    rect1Color = '',
+                    rect2Color = '';
+                    //player1 = prompt("Player 1\nChoose your color: red, yellow, green, blue")
             function drawLine() {
                 window.ctx.save();
                 window.ctx.strokeStyle = "orange";
@@ -47,98 +55,89 @@ and open the template in the editor.
                 window.ctx.stroke();
                 window.ctx.restore();
             }
+            
+            //sets rectangle colors
 
-            function recRed() {
-                window.ctx.fillStyle = "red";
-                window.ctx.fillRect(window.redXaxis, 100, window.width, window.height); // x y / w h
+            //draws red rectangle
+            function rect2() {
+                rect2Color = document.querySelector('#p2color').value;
+                window.ctx.fillStyle = rect2Color;
+                window.ctx.fillRect(window.rect2Xaxis, 100, window.width, window.height); // x y / w h
             }
-
-            function recBlue() {
-                window.ctx.fillStyle = "blue";
-                window.ctx.fillRect(window.blueXaxis, 25, window.width, window.height); // x y / w h
+            
+            //draws blue rectangle
+            function rect1() {
+                rect1Color = document.querySelector('#p1color').value;
+                window.ctx.fillStyle = rect1Color;
+                window.ctx.fillRect(window.rect1Xaxis, 25, window.width, window.height); // x y / w h
             }
-
             play.addEventListener('click', move);
-
-
+            
+            
             function move() {
-
-                if ((window.blueXaxis + window.width) < window.finishLine &&
-                        (window.redXaxis + window.width) < window.finishLine) {
+                //colorSet();
+                if ((window.rect1Xaxis + window.width) < window.finishLine &&
+                        (window.rect2Xaxis + window.width) < window.finishLine) {
                     hide();
-                    window.blueXaxis += randNum(10);
-                    window.redXaxis += randNum(10);
+                    window.rect1Xaxis += randNum(10);
+                    window.rect2Xaxis += randNum(10);
                     window.drawClear();
                     drawLine();
-                    recBlue();
-                    recRed();
-                    setTimeout(window.move, 10);
-                } else {
+                    rect1();
+                    rect2();
+                    setTimeout(window.move, 25);
+                } 
+                else {
                     show();
-                    if (window.blueXaxis + window.width >= window.finishLine) {
-                        if (window.blueXaxis === window.redXaxis) {
-                            console.log("tie");
+                    if (window.rect1Xaxis + window.width >= window.finishLine) {
+                        if (window.rect1Xaxis === window.rect2Xaxis) {
                             tie();
-
-                        } else {
-                            console.log("blue wins");
-                            blueWin();
-                        }
-                    } else if (window.redXaxis + window.width >= window.finishLine) {
-                        if (window.blueXaxis === window.redXaxis) {
-                            console.log("tie");
+                        } 
+                        else 
+                            player1Win();                        
+                    } else if (window.rect2Xaxis + window.width >= window.finishLine) {
+                        if (window.rect1Xaxis === window.rect2Xaxis) {
                             tie();
-
-                        } else {
-                            console.log("red wins");
-                            redWin();
-                        }
+                        } 
+                        else
+                            player2Win();                       
                     }
-
                     reset();
+                    
                 }
             }
-
             function randNum(max) {
                 return Math.ceil(Math.random() * max) + 1;
             }
-
             //adds text for blue win
-            function blueWin() {
-                window.ctx.fillStyle = "blue";
+            function player1Win() {
+                window.ctx.fillStyle = rect1Color;
                 window.ctx.font = "16pt Helvetica";
-                window.ctx.fillText("Blue Wins", (window.can.width / 2) - 50, window.can.height / 2); //x,y
+                window.ctx.fillText("Player 1 Wins!", (window.can.width / 2) - 50, window.can.height / 2); //x,y
             }
-
             //adds text for tie
             function tie() {
                 window.ctx.fillStyle = "purple";
                 window.ctx.font = "16pt Helvetica";
                 window.ctx.fillText("IT'S A TIE!!!!", (window.can.width / 2) - 50, window.can.height / 2); //x,y
             }
-
             //adds text for red win
-            function redWin() {
-                window.ctx.fillStyle = "red";
+            function player2Win() {
+                window.ctx.fillStyle = rect2Color;
                 window.ctx.font = "16pt Helvetica";
-                window.ctx.fillText("Red Wins", (window.can.width / 2) - 50, window.can.height / 2); //x,y
+                window.ctx.fillText("Player 2 Wins!", (window.can.width / 2) - 50, window.can.height / 2); //x,y
             }
-
             function drawClear() {
                 window.ctx.clearRect(0, 0, window.can.width, window.can.height); // x y / w h
             }
-
             function reset() {
-                redXaxis = 0;
-                blueXaxis = 0;
-
+                rect2Xaxis = 0;
+                rect1Xaxis = 0;
             }
-
             //hides play button
             function hide() {
                 play.style.display = 'none';
             }
-
             function show() {
                 play.style.display = 'block';
             }
